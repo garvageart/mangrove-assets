@@ -7,3 +7,10 @@ setInterval(() => {
     const dateText = `${dateString}\n${timeString}`;
     document.getElementById("header-date").innerText = dateText;
 }, 1000);
+
+// Hide context menu on images
+$(function () {
+    $('body').on('contextmenu', 'img', function (e) {
+        return false;
+    });
+});
