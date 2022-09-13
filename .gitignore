@@ -1,0 +1,21 @@
+# File Types
+*.env
+*.key
+*.pem
+*.crt
+*.log
+
+# Folders
+node_modules
+archive
+logs
+.VSCodeCounter
+backups
+references
+
+#Specified Files
+portfolio-website.code-workspace
+
+#File Name Patterns
+archive.js*
+test.js*
