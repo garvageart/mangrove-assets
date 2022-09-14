@@ -4,13 +4,6 @@ setInterval(() => {
     const dateString = dateObject.toLocaleString("en-ZA", { dateStyle: "long" });
     const timeString = dateObject.toLocaleString("en-ZA", { timeStyle: "short" });
 
-    const dateText = `${dateString}\n${timeString}`;
+    const dateText = `${dateString} ${timeString}`;
     document.getElementById("header-date").innerText = dateText;
 }, 1000);
-
-// Hide context menu on images
-$(function () {
-    $('body').on('contextmenu', 'img', function (e) {
-        return false;
-    });
-});
