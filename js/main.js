@@ -5,7 +5,7 @@ setInterval(() => {
     const timeString = dateObject.toLocaleString("en-ZA", { timeStyle: "short" });
 
     const dateText = `${dateString}, ${timeString}`;
-    let currentText = document.getElementById("header-date")
+    let currentText = document.getElementById("header-date").innerText
 
     if (currentText !== dateText) {
         currentText = dateText;
