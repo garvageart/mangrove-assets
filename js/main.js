@@ -58,80 +58,84 @@ function readAndParseCMSData () {
     };
 }
 
-(function createSlideshow () {
-    const CMSData = readAndParseCMSData();
-    const imageCount = CMSData.metadata.itemCount;
+if (document.getElementById("slideshow-current_image")) {
+    (function createSlideshow () {
+        const CMSData = readAndParseCMSData();
+        const imageCount = CMSData.metadata.itemCount;
 
-    const imageCountText = document.getElementById("collection-images_num");
-    const slideshowImage = document.getElementById("slideshow-current_image");
-    const slideshowImageDate = document.getElementById("slideshow-current_image-date");
-    const previousText = document.getElementById("slideshow-previous");
-    const nextText = document.getElementById("slideshow-next");
+        const imageCountText = document.getElementById("collection-images_num");
+        const slideshowImage = document.getElementById("slideshow-current_image");
+        const slideshowImageDate = document.getElementById("slideshow-current_image-date");
+        const previousText = document.getElementById("slideshow-previous");
+        const nextText = document.getElementById("slideshow-next");
 
-    const getImage = (index) => {
-        const slideshowPosition = index + 1;
-        const imageURL = CMSData.imageSources[index];
-        slideshowImage.src = imageURL;
-        slideshowImageDate.innerText = CMSData.metadata.dates[index];
-        imageCountText.innerText = `${slideshowPosition}/${imageCount} Images`;
-    };
+        const getImage = (index) => {
+            const slideshowPosition = index + 1;
+            const imageURL = CMSData.imageSources[index];
+            slideshowImage.src = imageURL;
+            slideshowImageDate.innerText = CMSData.metadata.dates[index];
+            imageCountText.innerText = `${slideshowPosition}/${imageCount} Images`;
+        };
 
-    /** We will initialize the current index of the image array with a random value and
-    use that as the initial image on page load
-    */
-    let currentImageIndex = Math.floor(Math.random() * imageCount);
-    getImage(currentImageIndex);
-
-    function nextImage () {
-        if (currentImageIndex < imageCount - 1) {
-            currentImageIndex++;
-        } else {
-            currentImageIndex = 0;
-        }
+        /** We will initialize the current index of the image array with a random value and
+        use that as the initial image on page load
+        */
+        let currentImageIndex = Math.floor(Math.random() * imageCount);
         getImage(currentImageIndex);
-    }
 
-    function previousImage () {
-        if (currentImageIndex > 0) {
-            currentImageIndex--;
-        } else {
-            currentImageIndex = imageCount - 1;
+        function nextImage () {
+            if (currentImageIndex < imageCount - 1) {
+                currentImageIndex++;
+            } else {
+                currentImageIndex = 0;
+            }
+            getImage(currentImageIndex);
         }
-        getImage(currentImageIndex);
-    }
 
-    previousText.onclick = () => previousImage();
-    nextText.onclick = () => nextImage();
-
-    document.addEventListener("keydown", (ev) => {
-        switch (ev.key) {
-            case "ArrowRight":
-                previousText.click();
-                break;
-            case "ArrowLeft":
-                nextText.click();
-                break;
+        function previousImage () {
+            if (currentImageIndex > 0) {
+                currentImageIndex--;
+            } else {
+                currentImageIndex = imageCount - 1;
+            }
+            getImage(currentImageIndex);
         }
-    });
+
+        previousText.onclick = () => previousImage();
+        nextText.onclick = () => nextImage();
+
+        document.addEventListener("keydown", (ev) => {
+            switch (ev.key) {
+                case "ArrowRight":
+                    previousText.click();
+                    break;
+                case "ArrowLeft":
+                    nextText.click();
+                    break;
+            }
+        });
+    }
+    )();
 }
-)();
 
-(function setHomePageImages () {
-    const CMSData = readAndParseCMSData();
-    const visualArtsImages = [];
-    const photographyImages = [];
+if (document.getElementById("home_page-category-photography")) {
+    (function setHomePageImages () {
+        const CMSData = readAndParseCMSData();
+        const visualArtsImages = [];
+        const photographyImages = [];
 
-    for (const CMSImage of CMSData.imageSources) {
-        if (CMSImage.includes("visualartsworks")) {
-            visualArtsImages.push(CMSImage);
-        } else {
-            photographyImages.push(CMSImage);
+        for (const CMSImage of CMSData.imageSources) {
+            if (CMSImage.includes("visualartsworks")) {
+                visualArtsImages.push(CMSImage);
+            } else {
+                photographyImages.push(CMSImage);
+            }
         }
-    }
 
-    const photographyCatElement = document.getElementById("home_page-category-photography");
-    const visualArtsCatElement = document.getElementById("home_page-category-visual_arts");
+        const photographyCatElement = document.getElementById("home_page-category-photography");
+        const visualArtsCatElement = document.getElementById("home_page-category-visual_arts");
 
-    photographyCatElement.src = photographyImages[Math.floor(Math.random() * photographyImages.length)];
-    visualArtsCatElement.src = visualArtsImages[Math.floor(Math.random() * visualArtsImages.length)];
-})();
+        photographyCatElement.src = photographyImages[Math.floor(Math.random() * photographyImages.length)];
+        visualArtsCatElement.src = visualArtsImages[Math.floor(Math.random() * visualArtsImages.length)];
+    })();
+}
