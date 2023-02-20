@@ -71,8 +71,6 @@ function readAndParseCMSData () {
     const getImage = (index) => {
         const slideshowPosition = index + 1;
         const imageURL = CMSData.imageSources[index];
-        slideshowImage.style.opacity = 0.0;
-        slideshowImage.style.opacity = 1.0;
         slideshowImage.src = imageURL;
         slideshowImageDate.innerText = CMSData.metadata.dates[index];
         imageCountText.innerText = `${slideshowPosition}/${imageCount} Images`;
