@@ -71,7 +71,6 @@ function readAndParseCMSData () {
     const getImage = (index) => {
         const slideshowPosition = index + 1;
         const imageURL = CMSData.imageSources[index];
-        slideshowImage.style.transition = 'opacity 0.3 ease-in';
         slideshowImage.style.opacity = 0.0;
         slideshowImage.style.opacity = 1.0;
         slideshowImage.src = imageURL;
