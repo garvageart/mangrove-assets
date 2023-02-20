@@ -58,7 +58,7 @@ function readAndParseCMSData () {
     };
 }
 
-(async function createSlideshow () {
+(function createSlideshow () {
     const CMSData = readAndParseCMSData();
     const imageCount = CMSData.metadata.itemCount;
 
@@ -119,7 +119,7 @@ function readAndParseCMSData () {
 }
 )();
 
-(async function setHomePageImages () {
+(function setHomePageImages () {
     const CMSData = readAndParseCMSData();
     const visualArtsImages = [];
     const photographyImages = [];
