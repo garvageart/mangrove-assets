@@ -78,9 +78,9 @@ if (document.getElementById("slideshow-current_image")) {
             const slideshowPosition = index + 1;
             const imageURL = CMSData.imageSources[index];
             slideshowImage.onload = () => {
-                slideshowImage.src = "https://uploads-ssl.webflow.com/620a7487cd108c486bc23aa0/63f73c7e5f5cbe5dad44c2fd_Spinner-1s-177px.svg";
+                slideshowImage.src = imageURL;
             };
-            slideshowImage.src = imageURL;
+            slideshowImage.src = "https://uploads-ssl.webflow.com/620a7487cd108c486bc23aa0/63f73c7e5f5cbe5dad44c2fd_Spinner-1s-177px.svg";
             slideshowImageDate.innerText = CMSData.metadata.dates[index];
             imageCountText.innerText = `${slideshowPosition}/${imageCount} Images`;
         };
