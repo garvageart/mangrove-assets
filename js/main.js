@@ -34,6 +34,7 @@ setInterval(() => {
     }
 }, 1000);
 
+// Reads attributes from collection elements and parses them into an object containing the data
 function readAndParseCMSData () {
     const imageSources = [...document.getElementsByClassName("w-json")].map(element => {
         const jsonText = JSON.parse(element.innerHTML);
@@ -69,9 +70,16 @@ if (document.getElementById("slideshow-current_image")) {
         const previousText = document.getElementById("slideshow-previous");
         const nextText = document.getElementById("slideshow-next");
 
+        document.onreadystatechange = () => {
+            slideshowImage.src = "https://uploads-ssl.webflow.com/620a7487cd108c486bc23aa0/63f73c7e5f5cbe5dad44c2fd_Spinner-1s-177px.svg";
+        };
+
         const getImage = (index) => {
             const slideshowPosition = index + 1;
             const imageURL = CMSData.imageSources[index];
+            slideshowImage.onload = () => {
+                slideshowImage.src = "https://uploads-ssl.webflow.com/620a7487cd108c486bc23aa0/63f73c7e5f5cbe5dad44c2fd_Spinner-1s-177px.svg";
+            };
             slideshowImage.src = imageURL;
             slideshowImageDate.innerText = CMSData.metadata.dates[index];
             imageCountText.innerText = `${slideshowPosition}/${imageCount} Images`;
@@ -139,3 +147,5 @@ if (document.getElementById("home_page-category-photography")) {
         visualArtsCatElement.src = visualArtsImages[Math.floor(Math.random() * visualArtsImages.length)];
     })();
 }
+
+document.getElementById("collection-name").innerHTML = document.getElementsByTagName("title")[0].innerHTML;
