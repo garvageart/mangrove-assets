@@ -69,9 +69,10 @@ if (document.getElementById("slideshow-current_image")) {
         const slideshowImageDate = document.getElementById("slideshow-current_image-date");
         const previousText = document.getElementById("slideshow-previous");
         const nextText = document.getElementById("slideshow-next");
+        const spinnerGIFUrl = "https://uploads-ssl.webflow.com/620a7487cd108c486bc23aa0/63f7409b6bf4b418dfdc6a33_Rolling-1s-300px.svg";
 
         document.onreadystatechange = () => {
-            slideshowImage.src = "https://uploads-ssl.webflow.com/620a7487cd108c486bc23aa0/63f73c7e5f5cbe5dad44c2fd_Spinner-1s-177px.svg";
+            slideshowImage.src = spinnerGIFUrl;
         };
 
         const getImage = (index) => {
@@ -80,7 +81,7 @@ if (document.getElementById("slideshow-current_image")) {
             slideshowImage.onload = () => {
                 slideshowImage.src = imageURL;
             };
-            slideshowImage.src = "https://uploads-ssl.webflow.com/620a7487cd108c486bc23aa0/63f73c7e5f5cbe5dad44c2fd_Spinner-1s-177px.svg";
+            slideshowImage.src = spinnerGIFUrl;
             slideshowImageDate.innerText = CMSData.metadata.dates[index];
             imageCountText.innerText = `${slideshowPosition}/${imageCount} Images`;
         };
