@@ -78,10 +78,10 @@ if (document.getElementById("slideshow-current_image")) {
         const getImage = (index) => {
             const slideshowPosition = index + 1;
             const imageURL = CMSData.imageSources[index];
+            slideshowImage.src = spinnerGIFUrl;
             slideshowImage.onload = () => {
                 slideshowImage.src = imageURL;
             };
-            slideshowImage.src = spinnerGIFUrl;
             slideshowImageDate.innerText = CMSData.metadata.dates[index];
             imageCountText.innerText = `${slideshowPosition}/${imageCount} Images`;
         };
@@ -116,10 +116,10 @@ if (document.getElementById("slideshow-current_image")) {
         document.addEventListener("keydown", (ev) => {
             switch (ev.key) {
                 case "ArrowRight":
-                    previousText.click();
+                    nextText.click();
                     break;
                 case "ArrowLeft":
-                    nextText.click();
+                    previousText.click();
                     break;
             }
         });
