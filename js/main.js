@@ -110,6 +110,9 @@ if (document.getElementById("slideshow-current_image")) {
             getImage(currentImageIndex);
         }
 
+        document.getElementById("slideshow-mouse_controls-left").onclick = () => previousImage();
+        document.getElementById("slideshow-mouse_controls-right").onclick = () => nextImage();
+
         previousText.onclick = () => previousImage();
         nextText.onclick = () => nextImage();
 
