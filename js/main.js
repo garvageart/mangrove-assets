@@ -37,6 +37,39 @@ setInterval(() => {
 
 }, 1000);
 
+function readAndParseCMSData () {
+    const imageSources = [...document.getElementsByClassName("w-json")].map(element => {
+        const jsonText = JSON.parse(element.innerHTML);
+        const imageURL = jsonText.items[0].url;
+
+        return imageURL;
+    });
+    const imageDates = [...document.querySelectorAll('[data-cms="image-date"]')].map(element => element.innerText);
+    const imageCount = imageSources.length;
+
+    const imageMetadata = [];
+    imageSources.forEach((source, SI) => {
+        const imageDate = imageDates[SI];
+
+        imageMetadata.push({
+            imageSource: source,
+            imageDate
+        });
+    });
+
+    const collectionWrappers = [...document.getElementsByClassName("collection-list-wrapper")];
+
+    /* Remove the Webflow CMS Collection Wrappers once all the data has been used */
+    collectionWrappers.forEach(collection => collection.remove());
+
+    return {
+        imageMetadata,
+        metadata: {
+            itemCount: imageCount
+        }
+    };
+}
+
 if (document.getElementById("slideshow-current_image")) {
     (function createSlideshow () {
         const CMSData = readAndParseCMSData();
