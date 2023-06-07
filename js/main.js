@@ -20,6 +20,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE;
 SOFTWARE. */
 
+import { readAndParseCMSData } from "./util";
+
 // Set the date and time, and update it every second if necessary
 setInterval(() => {
     const dateObject = new Date();
@@ -32,37 +34,21 @@ setInterval(() => {
     if (currentText !== dateText) {
         currentText = dateText;
     }
+
 }, 1000);
-
-// Reads attributes from collection elements and parses them into an object containing the data
-function readAndParseCMSData () {
-    const imageSources = [...document.getElementsByClassName("w-json")].map(element => {
-        const jsonText = JSON.parse(element.innerHTML);
-        const imageURL = jsonText.items[0].url;
-
-        return imageURL;
-    });
-    const imageDates = [...document.querySelectorAll('[data-cms="image-date"]')].map(element => element.innerText);
-    const imageCount = imageSources.length;
-
-    const collectionWrappers = [...document.getElementsByClassName("collection-list-wrapper")];
-
-    /* Remove the Webflow CMS Collection Wrappers once all the data has been used */
-    collectionWrappers.forEach(collection => collection.remove());
-
-    return {
-        imageSources: imageSources,
-        metadata: {
-            dates: imageDates,
-            itemCount: imageCount
-        }
-    };
-}
 
 if (document.getElementById("slideshow-current_image")) {
     (function createSlideshow () {
         const CMSData = readAndParseCMSData();
-        const imageCount = CMSData.metadata.itemCount;
+
+        const currentPageURLData = new URL(window.location.href);
+        const currentPagePaths = currentPageURLData.pathname.substring(1).split('/');
+
+        const currentCategory = currentPagePaths.includes('visual-arts') ? currentPagePaths[1] : currentPagePaths[2];
+        const currentCategoryFiltered = currentCategory.replaceAll(/[- ]+/g, '');
+
+        const currentCategoryImageMetadata = CMSData.imageMetadata.filter(metadata => metadata.imageSource.includes(currentCategoryFiltered));
+        const imageCount = currentCategoryImageMetadata.length;
 
         const imageCountText = document.getElementById("collection-images_num");
         const slideshowImage = document.getElementById("slideshow-current_image");
@@ -77,12 +63,12 @@ if (document.getElementById("slideshow-current_image")) {
 
         const getImage = (index) => {
             const slideshowPosition = index + 1;
-            const imageURL = CMSData.imageSources[index];
+            const imageURL = currentCategoryImageMetadata[index].imageSource;
             slideshowImage.src = spinnerGIFUrl;
             slideshowImage.onload = () => {
                 slideshowImage.src = imageURL;
             };
-            slideshowImageDate.innerText = CMSData.metadata.dates[index];
+            slideshowImageDate.innerText = currentCategoryImageMetadata[index].imageDate;
             imageCountText.innerText = `${slideshowPosition}/${imageCount} Images`;
         };
 
@@ -136,11 +122,11 @@ if (document.getElementById("home_page-category-photography")) {
         const visualArtsImages = [];
         const photographyImages = [];
 
-        for (const CMSImage of CMSData.imageSources) {
-            if (CMSImage.includes("visualartsworks")) {
-                visualArtsImages.push(CMSImage);
+        for (const CMSImage of CMSData.imageMetadata) {
+            if (CMSImage.imageSource.includes("visualartsworks")) {
+                visualArtsImages.push(CMSImage.imageSource);
             } else {
-                photographyImages.push(CMSImage);
+                photographyImages.push(CMSImage.imageSource);
             }
         }
 
@@ -152,4 +138,6 @@ if (document.getElementById("home_page-category-photography")) {
     })();
 }
 
-document.getElementById("collection-name").innerHTML = document.getElementsByTagName("title")[0].innerHTML;
+if (document.getElementById("collection-name")) {
+    document.getElementById("collection-name").innerHTML = document.getElementsByTagName("title")[0].innerHTML;
+}
